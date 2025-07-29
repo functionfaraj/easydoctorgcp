@@ -46,3 +46,12 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+
+# Sensitive credentials and config files
+alHayat-fcm.json
+*-fcm.json
+*-service-account.json
+config/config.json
+*.env
+*.env.local
+*.env.production
