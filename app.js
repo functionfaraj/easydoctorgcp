@@ -1,5 +1,8 @@
 require ('./config/config');
 require('./config/passportConfig');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Add error handling for database connection
 try {
@@ -39,7 +42,8 @@ app.get('/api/health', (req, res) => {
     status: 'healthy', 
     timestamp: new Date().toISOString(),
     port: process.env.PORT || 8080,
-    nodeEnv: process.env.NODE_ENV || 'development'
+    nodeEnv: process.env.NODE_ENV || 'development',
+    dbUrl: process.env.MONGODB_URL 
   });
 });
 

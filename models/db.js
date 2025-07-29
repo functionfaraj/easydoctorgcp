@@ -1,5 +1,8 @@
 
 const mongoose = require ('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Use environment variable for MongoDB connection URL, fallback to localhost for development
 const mongoUrl = process.env.MONGODB_URL || "mongodb://localhost:27017/EasyDoctorDB";
