@@ -1,6 +1,13 @@
 require ('./config/config');
 require('./config/passportConfig');
-require ('./models/db');
+
+// Add error handling for database connection
+try {
+  require ('./models/db');
+} catch (error) {
+  console.error('Database connection error during startup:', error);
+  // Continue startup even if DB connection fails initially
+}
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -15,6 +22,9 @@ var path=require('path');
 var fs = require('fs');
 const bycrypt = require('bcryptjs');
 
+console.log('Starting application...');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('PORT:', process.env.PORT);
 
 app.use (bodyParser.json());
 app.use(cors());
@@ -25,7 +35,12 @@ app.use(cors({ origin: "*" }));
 
 // Health check endpoint for Cloud Run
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
+  res.status(200).json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    port: process.env.PORT || 8080,
+    nodeEnv: process.env.NODE_ENV || 'development'
+  });
 });
 
 
@@ -45,7 +60,16 @@ app.get('/api/health', (req, res) => {
 const PORT = process.env.PORT || 8080;
 // app.listen("3000" , () => console.log('server start at posrt : 3000'));
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server is running on port ${PORT}.`);
+  console.log(`🚀 Server is running successfully on port ${PORT}`);
+  console.log(`🌍 Server accessible at http://0.0.0.0:${PORT}`);
+  console.log(`🏥 Health check available at http://0.0.0.0:${PORT}/api/health`);
+  console.log(`📅 Server started at: ${new Date().toISOString()}`);
+}).on('error', (err) => {
+  console.error('❌ Server failed to start:', err);
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use`);
+  }
+  process.exit(1);
 });
 
 

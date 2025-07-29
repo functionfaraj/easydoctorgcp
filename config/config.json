@@ -6,7 +6,7 @@
         "JWT_EXP": "40m"
       },
     "production": {
-        "PORT": 80,
+        "PORT": 8080,
         "MONGODB_URL": "mongodb+srv://functionfaraj:FMcCiwMQ1nPbKnTs@cluster0.xdnqskl.mongodb.net",
         "JWT_SECRET": "SECRET#123",
         "JWT_EXP": "50m"

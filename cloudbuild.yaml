@@ -14,7 +14,7 @@ steps:
     args:
       - 'run'
       - 'deploy'
-      - 'easydoctor-api'
+      - 'easydoctorgcp'
       - '--image'
       - 'gcr.io/$PROJECT_ID/easydoctor-api:$BUILD_ID'
       - '--platform'
@@ -25,7 +25,7 @@ steps:
       - '--port'
       - '8080'
       - '--set-env-vars'
-      - 'NODE_ENV=production'
+      - 'NODE_ENV=production,MONGODB_URL=mongodb+srv://functionfaraj:FMcCiwMQ1nPbKnTs@cluster0.xdnqskl.mongodb.net,JWT_SECRET=SECRET#123,JWT_EXP=50m'
       - '--memory'
       - '1Gi'
       - '--cpu'
@@ -35,12 +35,15 @@ steps:
       - '--max-instances'
       - '10'
       - '--timeout'
-      - '300s'
+      - '900s'
+      - '--cpu-throttling'
+      - '--concurrency'
+      - '80'
 
 # Substitution variables that can be set in Cloud Build triggers
 substitutions:
-  _JWT_SECRET: 'your-jwt-secret-here'
-  _MONGODB_URL: 'your-mongodb-connection-string'
+  _JWT_SECRET: 'SECRET#123'
+  _MONGODB_URL: 'mongodb+srv://functionfaraj:FMcCiwMQ1nPbKnTs@cluster0.xdnqskl.mongodb.net'
 
 options:
   logging: CLOUD_LOGGING_ONLY
